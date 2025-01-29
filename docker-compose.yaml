@@ -36,27 +36,3 @@ networks:
 
 
 
-# version: '3.8'
-
-# networks:
-#   fintech_network:
-#     external: true
-
-# services:
-#   jupyterhub:
-#     build: .
-#     volumes:
-#       - /var/run/docker.sock:/var/run/docker.sock
-#       - ./config/jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py
-#       - jupyterhub_data:/srv/jupyterhub/data
-#     ports:
-#       - "18220:8000"
-#     networks:
-#       - fintech_network
-#     runtime: nvidia
-#     restart: always
-#     environment:
-#       - NVIDIA_VISIBLE_DEVICES=all
-
-# volumes:
-#   jupyterhub_data:
