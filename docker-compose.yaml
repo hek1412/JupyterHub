@@ -1,0 +1,62 @@
+version: "3.8"
+
+services:
+  jupyterhub:
+    build:
+      context: .
+      dockerfile: Dockerfile.jupyterhub
+      # args:
+      #   JUPYTERHUB_VERSION: latest
+    restart: always
+    image: jupyterhub
+    container_name: jupyterhub
+    networks:
+      - jupyterhub-network
+    volumes:
+      # The JupyterHub configuration file
+      - "./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py"
+      # Bind Docker socket on the host so we can connect to the daemon from
+      # within the container
+      - "/var/run/docker.sock:/var/run/docker.sockk:rw"
+      # Bind Docker volume on host for JupyterHub database and cookie secrets
+      - "jupyterhub-data:/srv/jupyterhub/data"
+    ports:
+      - "35001:8000"
+
+volumes:
+  jupyterhub-data:
+
+networks:
+  jupyterhub-network:
+    name: jupyterhub-network
+
+
+
+
+
+
+
+# version: '3.8'
+
+# networks:
+#   fintech_network:
+#     external: true
+
+# services:
+#   jupyterhub:
+#     build: .
+#     volumes:
+#       - /var/run/docker.sock:/var/run/docker.sock
+#       - ./config/jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py
+#       - jupyterhub_data:/srv/jupyterhub/data
+#     ports:
+#       - "18220:8000"
+#     networks:
+#       - fintech_network
+#     runtime: nvidia
+#     restart: always
+#     environment:
+#       - NVIDIA_VISIBLE_DEVICES=all
+
+# volumes:
+#   jupyterhub_data:
