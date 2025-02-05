@@ -49,7 +49,8 @@ RUN python3 -m pip install --no-cache-dir \
 COPY jupyterhub_config.py /srv/jupyterhub/jupyterhub_config.py
 CMD ["jupyterhub", "-f", "/srv/jupyterhub/jupyterhub_config.py"]
 ```
-jupyterhub_config.py
+`jupyterhub_config.py`
+
 ```
 from dockerspawner import DockerSpawner
 import os, nativeauthenticator
@@ -133,7 +134,7 @@ docker logs jupyterhubtest
 
 ![image](https://github.com/user-attachments/assets/7f5e650a-dce8-4b81-bca0-76ffc32c2667)
 
-Теперь выходим из под админа и регистрируемся под user777, нажимаем создать пользователя
+Теперь выходим из под админа и регистрируемся под `user777`, нажимаем создать пользователя
 
 ![image](https://github.com/user-attachments/assets/3b9c5a3b-980a-4c4e-a802-802a44f9da89)
 
@@ -149,7 +150,7 @@ docker logs jupyterhubtest
 
 ![image](https://github.com/user-attachments/assets/06690e7e-f47e-4a3c-83dc-cc6c21d8b1f2)
 
-Теперь входим в панель управления и выходим из учетной записи user777(Вкладка админа отсутствует). Снова входим с правами admin в панель управления
+Теперь входим в панель управления и выходим из учетной записи `user777`(Вкладка админа отсутствует). Снова входим с правами admin в панель управления
 
 ![image](https://github.com/user-attachments/assets/bb5480d4-5179-4b41-9896-72dffd66d769)
 
@@ -161,20 +162,20 @@ docker logs jupyterhubtest
 
 ![image](https://github.com/user-attachments/assets/3c2f77c7-ebd5-4861-9037-ddb3ab9c9b74)
 
-Теперь проверим существующие контейнеры для сети jupyterhubtest, что бы нас не отвлекали другие контейнеры
+Теперь проверим существующие контейнеры для сети `jupyterhubtest`
 
 `docker network inspect jupyterhubtest`
 
 ![image](https://github.com/user-attachments/assets/36a7d982-7859-42ae-9f7f-74ec8904dfa6)
 
-Видим сам jupyterhub, контейнер фдмина и 2 пользовательских контейнера, также видим их ip адреса
+Видим сам jupyterhub, контейнер админа и 2 пользовательских контейнера, а также видим дополнительную информацию
 
 ### 5) Теперь нам нужно создать базу данных PostgreSQL в отдельном контейнере, также в одной сети с юпитер хабом 
 Останавливаем наш сервис
 
 `docker compose down`
 
-добавим в docker-compose.yaml еще оди сервис
+добавим в docker-compose.yaml еще один сервис
 
 `docker-compose.yaml`
 ```
