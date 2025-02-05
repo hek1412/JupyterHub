@@ -1,5 +1,5 @@
 services:
-  jupyterhub:
+  jupyterhubtest:
     build:
       context: .
       dockerfile: Dockerfile.jupyterhub
@@ -7,22 +7,45 @@ services:
     image: jupyterhub
     container_name: jupyterhubtest
     networks:
-      - jupyterhub-networktest
+      - jupyterhubtest
     volumes:
       - "./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py"
-      - "/var/run/docker.sock:/var/run/docker.sockk:rw"
+      - "/var/run/docker.sock:/var/run/docker.sock:rw"
       - "jupyterhub-data:/srv/jupyterhub/data"
     ports:
       - "35003:8000"
+    environment:
+      - JUPYTERHUB_BASE_URL=/hub
+      - JUPYTERHUB_URL=http://skayfaks.keenetic.pro:35003
+
+  postgrestest:
+    image: postgres:17.2-bookworm
+    container_name: postgrestest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres_db
+      PGDATA: /var/lib/postgresql/data/
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data/
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d postgres_db" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - jupyterhubtest
 
 volumes:
+  postgres-data:
   jupyterhub-data:
 
-
 networks:
-  jupyterhub-network:
+  jupyterhubtest:
     name: jupyterhubtest
-
 
 
 
